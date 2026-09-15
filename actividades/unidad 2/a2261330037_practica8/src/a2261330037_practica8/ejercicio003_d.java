@@ -1,0 +1,24 @@
+package a2261330037_practica8;
+
+import java.util.Scanner;
+
+public class ejercicio003_d{
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        String opc = "";
+        String cadena = "";
+
+        System.out.println(" Menu de Opciones \n 1.-Opcion 1 \n 2.-Opcion 2 \n 3.-Opcion 3 \n 4.-Opcion 4 \n Eliga una opcion [1..4] --> ");
+        opc = entrada.nextLine();
+
+        switch (opc) {
+            case "1": cadena = "Elegiste la opcion 1"; break;
+            case "2": cadena = "Elegiste la opcion 2"; break;
+            case "3": cadena = "Elegiste la opcion 3"; break;
+            case "4": cadena = "Elegiste la opcion 4"; break;
+            default: cadena = "Elegiste una opcion que no existe"; break;
+        }
+
+        System.out.println("\n" + cadena);
+    }
+}
