@@ -1,0 +1,180 @@
+package a2261330037_estudiodecaso;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * Proyecto: amatricula_estudiodecaso
+ * Capitulo 3 - Modularizacion: Funciones de apoyo
+ * (menus, entrada y validacion, formateo y fecha)
+ */
+public class Capitulo3 {
+
+    // ------------------------------------------------------------
+    // Declaracion de variables globales
+    // ------------------------------------------------------------
+
+    // ------------------------------------------------------------
+    // Declaracion de funciones
+    // ------------------------------------------------------------
+
+    // 3.3.1 Funcion mostrar menu (version con for mejorado / for each)
+    public static String MostrarMenu(String[] opciones) {
+        String cadena = "";
+        for (String info : opciones) {
+            cadena = cadena + info + "\n";
+        }
+        return cadena;
+    }
+
+    // 3.3.1 Funcion mostrar menu (version inicial con while y numeracion)
+    public static String MostrarMenuNumerado(String[] opciones) {
+        String cadena = "";
+        int i = 0;
+        while (i < opciones.length) {
+            cadena += (i + 1) + ". " + opciones[i] + "\n";
+            i++;
+        }
+        return cadena;
+    }
+
+    // 3.4.1 Funcion dialogo
+    public static String Dialogo(String texto) throws IOException {
+        String cadena;
+        System.out.println(texto + " : ");
+        BufferedReader lectura = new BufferedReader(new InputStreamReader(System.in));
+        cadena = lectura.readLine();
+        return cadena;
+    }
+
+    // 3.4.2 Funcion desplegar menu
+    public static String DesplegarMenu(String Titulo1, String[] menu) throws IOException {
+        String cadena;
+        cadena = Titulo1 + "\n" + "\n";
+        cadena = cadena + MostrarMenu(menu);
+        cadena = cadena + "\n Que opcion deseas ";
+        return cadena = Dialogo(cadena);
+    }
+
+    // 3.5 Funcion leer
+    public static String Leer(String texto) throws IOException {
+        String cadena = "";
+        cadena = Dialogo(texto);
+        if (cadena != null) {
+            cadena = cadena.trim();
+            if (cadena.isEmpty()) {
+                cadena = null;
+            }
+        } else {
+            cadena = null;
+        }
+        return cadena;
+    }
+
+    // 3.5.1 Funcion evaluar numerico entero
+    public static boolean EsNumeroEntero(String dato) {
+        for (char c : dato.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 3.5.2 Funcion evaluar numerico double
+    public static boolean EsNumeroDouble(String dato) {
+        boolean valido = false;
+        for (char c : dato.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                if (c == '.' && !valido) {
+                    valido = true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return valido;
+    }
+
+    // 3.5.3 Funcion evaluar numerico (tipo 1 = entero, tipo 2 = decimal)
+    public static boolean EvaluarNumerico(String dato, int tipo) {
+        boolean valido = false;
+        switch (tipo) {
+            case 1:
+                valido = EsNumeroEntero(dato);
+                break;
+            case 2:
+                valido = EsNumeroDouble(dato);
+                break;
+        }
+        return valido;
+    }
+
+    // 3.6.1 Funcion rellenar espacios (version con ciclo for)
+    public static String RellenarEspaciosCiclo(String dato, int tamano) {
+        String cadena;
+        cadena = dato;
+        for (int ciclo = dato.length(); ciclo < tamano; ciclo++) {
+            cadena = cadena + " ";
+        }
+        return cadena;
+    }
+
+    // 3.6.1 Funcion rellenar espacios (version con String.format)
+    public static String Rellenarespacios(String dato, int tamano) {
+        return String.format("%1$-" + tamano + "s", dato);
+    }
+
+    // 3.6.2 Funcion id ticket siguiente (formato 001, 002, ...)
+    public static String IdTicketSiguiente(String idticket) {
+        String idticketnext = "";
+        int num = Integer.parseInt(idticket) + 1;
+        if (num < 10) {
+            idticketnext = "00" + String.valueOf(num).trim();
+        } else if ((num > 9) && (num < 100)) {
+            idticketnext = "0" + String.valueOf(num).trim();
+        } else {
+            idticketnext = String.valueOf(num).trim();
+        }
+        return idticketnext;
+    }
+
+    // 3.6.3 Funcion obtener ultima posicion
+    public static int ObtenerUltimaPosicion(String[][] matriz) {
+        int ultimaPosicion = -1;
+        for (int i = 0; i < matriz.length; i++) {
+            if (matriz[i][0] != null && !matriz[i][0].isEmpty()) {
+                ultimaPosicion = i;
+            }
+        }
+        return ultimaPosicion;
+    }
+
+    // 3.7 Funcion fecha (formato dd-MM-yyyy)
+    public static String Fecha() {
+        Date fecha = new Date();
+        SimpleDateFormat formatodia = new SimpleDateFormat("dd-MM-yyyy");
+        return formatodia.format(fecha);
+    }
+
+    // ------------------------------------------------------------
+    // Declaracion de procedimientos
+    // ------------------------------------------------------------
+
+    // ------------------------------------------------------------
+    // Codigo principal
+    // ------------------------------------------------------------
+    public static void main(String[] args) throws IOException {
+        String[] opciones = {"1. Opcion uno", "2. Opcion dos", "3. Salir"};
+        System.out.println(MostrarMenu(opciones));
+        System.out.println("Fecha: " + Fecha());
+        System.out.println("Siguiente ticket despues de 089: " + IdTicketSiguiente("089"));
+        System.out.println("[" + Rellenarespacios("Hola", 10) + "]");
+        System.out.println("EsNumeroEntero(\"123\") = " + EsNumeroEntero("123"));
+        System.out.println("EsNumeroDouble(\"123.45\") = " + EsNumeroDouble("123.45"));
+        System.out.println("EvaluarNumerico(\"12ab.45\", 2) = " + EvaluarNumerico("12ab.45", 2));
+    }
+}
